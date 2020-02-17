@@ -60,11 +60,15 @@ private ObjectOutputStream outputStream;
                 try {
                     lock.lock();
                     socket=new Socket(ipAddress,port);
-                    System.out.println("");
                     outputStream = new ObjectOutputStream(socket.getOutputStream());
                     inputStream = new ObjectInputStream(socket.getInputStream());
+
+                    TypeRequest request=new TypeRequest();
+                    request.type= Type.WAITER;
+                    outputStream.writeObject(request);
+                    outputStream.flush();
+
                     lock.unlock();
-                    System.out.println();
                 } catch (IOException e) {
                     e.printStackTrace();
                     lock.unlock();
