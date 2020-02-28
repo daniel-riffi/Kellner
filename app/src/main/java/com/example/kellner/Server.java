@@ -1,8 +1,19 @@
 package com.example.kellner;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.lang.reflect.Modifier;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +29,8 @@ private int port;
 private ReentrantLock lock;
 
 private Socket socket;
-private ObjectInputStream inputStream;
-private ObjectOutputStream outputStream;
+private BufferedReader reader;
+private PrintWriter writer;
 
     public Server(String ipAddress,  int port){
         this.ipAddress=ipAddress;
@@ -29,28 +40,24 @@ private ObjectOutputStream outputStream;
 
     public void sendOrderToServer(Order order){
         new Thread((()->{
-            try {
-                outputStream.writeObject(order);
-                outputStream.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+          String json=new GsonBuilder().excludeFieldsWithModifiers(Modifier.PRIVATE).create()
+                  .toJson(order);
+          writer.print(json+"\r\n");
+          writer.flush();
         })).start();
     }
 
     public void readOffersFromServer(Consumer<List<Offer>> callback){
         new Thread(()->{
             try {
-                ArrayList<Offer> offers=(ArrayList<Offer>) inputStream.readObject();
+                String json=reader.readLine();
+                TypeToken<List<Offer>> token=new TypeToken<List<Offer>>(){};
+                ArrayList<Offer> offers=new GsonBuilder().excludeFieldsWithModifiers(Modifier.PRIVATE).create()
+                        .fromJson(json,token.getType());
                 callback.accept(offers);
-
             } catch (IOException e) {
                 e.printStackTrace();
-            }catch (ClassNotFoundException e){
-                readOffersFromServer(callback);
             }
-
-
         }).start();
     }
 
@@ -59,14 +66,19 @@ private ObjectOutputStream outputStream;
             Thread t=new Thread(() -> {
                 try {
                     lock.lock();
-                    socket=new Socket(ipAddress,port);
-                    outputStream = new ObjectOutputStream(socket.getOutputStream());
-                    inputStream = new ObjectInputStream(socket.getInputStream());
+                    socket=new Socket();
+                    socket.connect(new InetSocketAddress(ipAddress,port),5*1000);
+                    reader=new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    writer=new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 
-                    TypeRequest request=new TypeRequest();
-                    request.type= Type.WAITER;
-                    outputStream.writeObject(request);
-                    outputStream.flush();
+
+                    TypeRequest r=new TypeRequest();
+                    r.type= Type.WAITER;
+
+                    Gson gson=new GsonBuilder().excludeFieldsWithModifiers(Modifier.PRIVATE).create();
+                    String json=gson.toJson(r);
+                    writer.print(json+"\n");
+                    writer.flush();
 
                     lock.unlock();
                 } catch (IOException e) {
@@ -78,7 +90,7 @@ private ObjectOutputStream outputStream;
             t.start();
             Thread.sleep(100);
             lock.lock();
-            if(socket!=null&&inputStream!=null&&outputStream!=null) {
+            if(socket!=null&&writer!=null&&reader!=null) {
                 lock.unlock();
                 return true;
             }
@@ -90,5 +102,15 @@ private ObjectOutputStream outputStream;
         }
 
         return false;
+    }
+    public void close() {
+        try {
+            socket.close();
+            writer.close();
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
