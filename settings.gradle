@@ -1,2 +1,2 @@
 include ':app', ':OrderLibrary'
-rootProject.name='Kellner'
+project(':OrderLibrary').projectDir = new File('../OrderLibrary')
