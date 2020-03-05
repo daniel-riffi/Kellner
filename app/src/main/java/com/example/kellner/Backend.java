@@ -1,7 +1,8 @@
 package com.example.kellner;
 
-import com.example.orderlibrary.Order;
-import com.example.orderlibrary.Position;
+
+
+import at.orderlibrary.*;
 
 import java.util.List;
 import java.util.stream.Collectors;

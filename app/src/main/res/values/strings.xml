@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Kellner</string>
     <string name="header">Musikkapelle Ampflwang</string>
+    <string name="item">Bier</string>
 </resources>

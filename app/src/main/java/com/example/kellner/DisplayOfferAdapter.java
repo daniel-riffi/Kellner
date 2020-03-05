@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import com.example.orderlibrary.Offer;
+import at.orderlibrary.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -17,7 +17,6 @@ import java.util.function.Consumer;
 
 
 public class DisplayOfferAdapter extends BaseAdapter {
-
     private List<Offer> offers = new ArrayList<>();
     private int layoutId;
     private LayoutInflater inflater;
@@ -49,7 +48,8 @@ public class DisplayOfferAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup parent) {
         Offer offer = offers.get(position);
         View listItem = (view == null) ? inflater.inflate(this.layoutId, null) : view;
-        ((TextView) listItem.findViewById(R.id.txtOfferName)).setText(offer.name);
+        ((Button) listItem.findViewById(R.id.btnAdd)).setText(offer.name);
+        //String tmp = getString(R.string.item);
         ((Button) listItem.findViewById(R.id.btnAdd)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
