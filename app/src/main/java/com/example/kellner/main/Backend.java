@@ -1,12 +1,10 @@
-package com.example.kellner;
+package com.example.kellner.main;
 
 
 
 import at.orderlibrary.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 
 public class Backend {

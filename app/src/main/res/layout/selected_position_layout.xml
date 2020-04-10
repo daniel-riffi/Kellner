@@ -8,7 +8,6 @@
             android:id="@+id/txtSelectedOfferName"
             android:layout_width="238dp"
             android:layout_height="34dp"
-            android:background="@drawable/rectangle_selected_offer"
             android:textSize="20sp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
@@ -16,11 +15,13 @@
             android:fontFamily="@font/sf_pro_rounded_regular"
             android:textAlignment="gravity" />
 
+    <!--            android:background="@drawable/rectangle_selected_number"-->
+
     <TextView
             android:id="@+id/txtSelectedOfferNumber"
             android:layout_width="33dp"
             android:layout_height="33dp"
-            android:background="@drawable/rectangle_selected_number"
+
             android:textSize="20sp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"

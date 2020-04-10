@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".payment.PaymentSystemActivity">
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txtTotalPriceName"
+            android:layout_width="250dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/sf_pro_rounded_regular"
+            android:textAlignment="gravity"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txtTotalPrice"
+            android:layout_width="80dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/sf_pro_rounded_regular"
+            android:textAlignment="gravity"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.06" />
+
+    <ListView
+        android:id="@+id/positionsView"
+        android:layout_width="411dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline6" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.50" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/guideline9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline7">
+
+        <TextView
+            android:id="@+id/txtToPayName"
+            android:layout_width="250dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/sf_pro_rounded_regular"
+            android:textAlignment="gravity"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txtToPay"
+            android:layout_width="80dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/sf_pro_rounded_regular"
+            android:textAlignment="gravity"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.56"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.6"/>
+
+
+    <ListView
+        android:id="@+id/selectedPaymentsView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline11"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline10" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.86"/>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/guideline12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline11">
+
+        <TextView
+            android:id="@+id/txtSelectedName"
+            android:layout_width="250dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/sf_pro_rounded_regular"
+            android:textAlignment="gravity"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txtSelected"
+            android:layout_width="80dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/sf_pro_rounded_regular"
+            android:textAlignment="gravity"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.92"/>
+
+    <Button
+        android:id="@+id/btnFinishPayment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/finished_payment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline12" />
+
+    <Button
+        android:id="@+id/btnFinishCurPayment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cur_payment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnFinishPayment"
+        app:layout_constraintTop_toTopOf="@+id/guideline12" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
