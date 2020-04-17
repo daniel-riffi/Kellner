@@ -14,9 +14,11 @@ import android.widget.TextView;
 
 import com.example.kellner.R;
 import com.example.kellner.main.MainActivity;
+import com.example.kellner.main.OfferDialogFragment;
 import com.example.kellner.payment.adapter.PaymentsAdapter;
 import com.example.kellner.payment.adapter.SelectedPaymentsAdapter;
 
+import at.orderlibrary.Offer;
 import at.orderlibrary.Position;
 
 import java.lang.reflect.Array;
@@ -43,6 +45,8 @@ public class PaymentSystemActivity extends AppCompatActivity{
     private TextView txtSelectedName;
     private Button btnFinishCurPayment;
     private Button btnFinishPayment;
+    private PaymentDialogFragment paymentDialogFragment;
+    private PaymentSystemActivity paymentSystemActivity;
 
 
     @Override
@@ -50,6 +54,7 @@ public class PaymentSystemActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_system);
         Intent intent = getIntent();
+        paymentSystemActivity = this;
         payments = (ArrayList<Position>)intent.getSerializableExtra("selectedPositions");
 
         paymentsView = findViewById(R.id.positionsView);
@@ -84,28 +89,19 @@ public class PaymentSystemActivity extends AppCompatActivity{
         });
         Intent intent = new Intent(this, MainActivity.class);
         btnFinishPayment.setOnClickListener(x -> {
-            AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
-            builder2.setTitle("Bestellung erfolgreich gesendet");
-            builder2.setMessage("Die Bestellung mit den bezahlten Personen wurde erfolgreich an den Koch / die Ausschank gesendet");
-            builder2.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startActivity(intent);
-                }
-            });
-
-
             String t = txtToPay.getText().toString();
             String[] parts = t.split(" ");
             double d = Double.parseDouble(parts[0]);
             if(d != 0){
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
                 builder.setTitle(R.string.bez_not_finished_title);
                 builder.setMessage(R.string.bez_not_finished_text);
                 builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        builder2.show();
+                        paymentDialogFragment = new PaymentDialogFragment(intent, paymentSystemActivity);
+                        paymentDialogFragment.show(getSupportFragmentManager(), "dialog");
                     }
                 });
                 builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -115,12 +111,11 @@ public class PaymentSystemActivity extends AppCompatActivity{
                     }
                 });
                 builder.show();
-                btnFinishPayment.setEnabled(true);
+
             }else{
-                builder2.show();
+                paymentDialogFragment = new PaymentDialogFragment(intent, paymentSystemActivity);
+                paymentDialogFragment.show(getSupportFragmentManager(), "dialog");
             }
-
-
         });
     }
 
