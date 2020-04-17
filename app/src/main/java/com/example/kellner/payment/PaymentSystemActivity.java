@@ -19,6 +19,7 @@ import com.example.kellner.payment.adapter.PaymentsAdapter;
 import com.example.kellner.payment.adapter.SelectedPaymentsAdapter;
 
 import at.orderlibrary.Offer;
+import at.orderlibrary.Order;
 import at.orderlibrary.Position;
 
 import java.lang.reflect.Array;
@@ -33,6 +34,7 @@ public class PaymentSystemActivity extends AppCompatActivity{
     private ListView selectedPaymentsView;
     private List<Position> payments;
     private List<Position> selectedPayments = new ArrayList<>();
+    private List<Position> payedPositions = new ArrayList<>();
     private double totalPrice;
     private double curPrice;
     private PaymentsAdapter paymentsAdapter;
@@ -45,6 +47,7 @@ public class PaymentSystemActivity extends AppCompatActivity{
     private TextView txtSelectedName;
     private Button btnFinishCurPayment;
     private Button btnFinishPayment;
+    private Button btnFinishAllPayment;
     private PaymentDialogFragment paymentDialogFragment;
     private PaymentSystemActivity paymentSystemActivity;
 
@@ -65,8 +68,10 @@ public class PaymentSystemActivity extends AppCompatActivity{
         txtToPayName = findViewById(R.id.txtToPayName);
         txtSelected = findViewById(R.id.txtSelected);
         txtSelectedName = findViewById(R.id.txtSelectedName);
+
         btnFinishCurPayment = findViewById(R.id.btnFinishCurPayment);
         btnFinishPayment = findViewById(R.id.btnFinishPayment);
+        btnFinishAllPayment = findViewById(R.id.btnFinishAllPayment);
 
         getTotalPriceOfPaymentsList();
         getTotalPriceOfSelectedPaymentsList();
@@ -83,24 +88,35 @@ public class PaymentSystemActivity extends AppCompatActivity{
                 updatePricePay();
             }
             paymentsAdapter.notifyDataSetChanged();
+            payedPositions.addAll(selectedPayments);
             selectedPayments.clear();
             updateSelected();
             selectedPaymentsAdapter.notifyDataSetChanged();
         });
-        Intent intent = new Intent(this, MainActivity.class);
+
+        btnFinishAllPayment.setOnClickListener(x -> {
+            selectedPayments.addAll(payments);
+            payments.clear();
+            updateSelected();
+            selectedPaymentsAdapter.notifyDataSetChanged();
+            paymentsAdapter.notifyDataSetChanged();
+        });
+
         btnFinishPayment.setOnClickListener(x -> {
             String t = txtToPay.getText().toString();
             String[] parts = t.split(" ");
             double d = Double.parseDouble(parts[0]);
+            Consumer<String> tableNumber = s -> sendOrder(s);
+
             if(d != 0){
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
                 builder.setTitle(R.string.bez_not_finished_title);
                 builder.setMessage(R.string.bez_not_finished_text);
                 builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        paymentDialogFragment = new PaymentDialogFragment(intent, paymentSystemActivity);
+
+                        paymentDialogFragment = new PaymentDialogFragment(paymentSystemActivity, tableNumber);
                         paymentDialogFragment.show(getSupportFragmentManager(), "dialog");
                     }
                 });
@@ -113,7 +129,7 @@ public class PaymentSystemActivity extends AppCompatActivity{
                 builder.show();
 
             }else{
-                paymentDialogFragment = new PaymentDialogFragment(intent, paymentSystemActivity);
+                paymentDialogFragment = new PaymentDialogFragment(paymentSystemActivity, tableNumber);
                 paymentDialogFragment.show(getSupportFragmentManager(), "dialog");
             }
         });
@@ -127,6 +143,14 @@ public class PaymentSystemActivity extends AppCompatActivity{
         Consumer<Position> deletePositionConsumer = x -> handlePosition(x, false);
         selectedPaymentsAdapter = new SelectedPaymentsAdapter(this, R.layout.selected_payments_layout, selectedPayments, deletePositionConsumer);
         listViewSelectedPayments.setAdapter(selectedPaymentsAdapter);
+    }
+
+    private void sendOrder(String tableNumber){
+        Intent intent = new Intent(this, MainActivity.class);
+        Order order = new Order(1, Integer.parseInt(tableNumber), (ArrayList<Position>) payedPositions);
+        System.out.println("This is a order object:");
+        System.out.println(order.toString());
+        startActivity(intent);
     }
 
     private void handlePosition(Position position, boolean addel) {

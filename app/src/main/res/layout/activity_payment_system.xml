@@ -192,4 +192,14 @@
         app:layout_constraintStart_toEndOf="@+id/btnFinishPayment"
         app:layout_constraintTop_toTopOf="@+id/guideline12" />
 
+    <Button
+        android:id="@+id/btnFinishAllPayment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/all_payment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnFinishPayment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline12" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

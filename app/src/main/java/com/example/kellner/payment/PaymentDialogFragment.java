@@ -8,21 +8,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
 
 import com.example.kellner.R;
 import com.example.kellner.main.MainActivity;
 
+import java.util.function.Consumer;
+
 public class PaymentDialogFragment extends DialogFragment {
-    private EditText txtTableNumber;
-    private Intent intent;
+    private TextView txtTableNumber;
     private PaymentDialogFragment paymentDialogFragment;
     private PaymentSystemActivity paymentSystemActivity;
+    private Consumer consumer;
 
-    public PaymentDialogFragment(Intent intent, PaymentSystemActivity paymentSystemActivity){
-        this.intent = intent;
+    public PaymentDialogFragment(PaymentSystemActivity paymentSystemActivity, Consumer consumer){
         this.paymentSystemActivity = paymentSystemActivity;
+        this.consumer = consumer;
     }
 
     public Dialog onCreateDialog(Bundle savedInstanceState){
@@ -39,7 +42,7 @@ public class PaymentDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(!txtTableNumber.getText().toString().equals("")){
-                    startActivity(intent);
+                    consumer.accept(txtTableNumber.getText().toString());
                 }else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("Tischnummer!");
@@ -47,13 +50,12 @@ public class PaymentDialogFragment extends DialogFragment {
                     builder.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            paymentDialogFragment = new PaymentDialogFragment(intent, paymentSystemActivity);
+                            paymentDialogFragment = new PaymentDialogFragment(paymentSystemActivity, consumer);
                             paymentDialogFragment.show(paymentSystemActivity.getSupportFragmentManager(), "dialog");
                         }
                     });
                     builder.show();
                 }
-
             }
         });
         return builder.create();

@@ -7,6 +7,7 @@
     <string name="payment">Zahlung</string>
     <string name="cur_payment">Zahlung</string>
     <string name="finished_payment">Fertig bezahlt</string>
+    <string name="all_payment">Zahlung all</string>
     <string name="table_number">Tischnummer</string>
     <string name="bez_not_finished_title">Bezahlung nicht abgeschlossen!</string>
     <string name="bez_not_finished_text">Es wurden nicht alle Produkte bezahlt. Nur die bezahlten Produkte werden dem Koch übermittelt. Fortsetzen?</string>
