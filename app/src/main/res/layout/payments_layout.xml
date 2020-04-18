@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+     <Button
+         android:id="@+id/btnSelectPayment"
+         android:layout_width="25dp"
+         android:layout_height="49dp"
+         android:layout_marginStart="15dp"
+         android:background="@drawable/plus"/>
+
+
+     <TextView
+         android:id="@+id/txtPaymentAmount"
+         android:layout_width="33dp"
+         android:layout_height="33dp"
+         android:textSize="20sp"
+         android:layout_marginStart="15dp"
+         android:layout_marginTop="8dp"
+         android:layout_marginBottom="5dp"
+         android:fontFamily="@font/sf_pro_rounded_regular" />
+
+     <TextView
+         android:id="@+id/txtPaymentName"
+         android:layout_width="190dp"
+         android:layout_height="33dp"
+         android:textSize="20sp"
+         android:layout_marginStart="5dp"
+         android:layout_marginTop="8dp"
+         android:layout_marginBottom="5dp"
+         android:fontFamily="@font/sf_pro_rounded_regular"
+         android:textAlignment="gravity" />
+
+     <TextView
+         android:id="@+id/txtPaymentPrice"
+         android:layout_width="70dp"
+         android:layout_height="33dp"
+         android:textSize="20sp"
+         android:layout_marginStart="25dp"
+         android:layout_marginTop="8dp"
+         android:layout_marginBottom="5dp"
+         android:fontFamily="@font/sf_pro_rounded_regular" />
+
+
+</LinearLayout>
