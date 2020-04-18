@@ -36,8 +36,8 @@ public class PaymentDialogFragment extends DialogFragment {
         builder.setView(view);
         txtTableNumber = view.findViewById(R.id.txtTableNumber);
 
-        builder.setTitle("Bestellung wird gesendet");
-        builder.setMessage("Die Bestellung wird nun an den Koch übermittelt. Bitte Tischnummer eingeben:");
+        builder.setTitle(R.string.bez_finished_title);
+        builder.setMessage(R.string.bez_finished_text);
         builder.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -45,8 +45,8 @@ public class PaymentDialogFragment extends DialogFragment {
                     consumer.accept(txtTableNumber.getText().toString());
                 }else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle("Tischnummer!");
-                    builder.setMessage("Bitte vorher Tischnummer eingeben!");
+                    builder.setTitle(R.string.tbl_number_title);
+                    builder.setMessage(R.string.tbl_number_text);
                     builder.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
