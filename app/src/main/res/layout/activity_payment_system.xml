@@ -179,26 +179,25 @@
         android:text="@string/finished_payment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline12" />
 
     <Button
         android:id="@+id/btnFinishCurPayment"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
         android:text="@string/cur_payment"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnFinishPayment"
+        app:layout_constraintEnd_toStartOf="@+id/btnFinishPayment"
         app:layout_constraintTop_toTopOf="@+id/guideline12" />
 
     <Button
         android:id="@+id/btnFinishAllPayment"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/all_payment"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnFinishPayment"
+        app:layout_constraintEnd_toStartOf="@+id/btnFinishCurPayment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline12" />
 

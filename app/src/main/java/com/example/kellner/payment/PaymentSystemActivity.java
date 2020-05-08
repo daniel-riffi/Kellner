@@ -30,6 +30,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class PaymentSystemActivity extends AppCompatActivity{
+
+    MainActivity mainActivity;
+    private List<Position> alreadyPayed;
     private ListView paymentsView;
     private ListView selectedPaymentsView;
     private List<Position> payments;
@@ -59,6 +62,12 @@ public class PaymentSystemActivity extends AppCompatActivity{
         Intent intent = getIntent();
         paymentSystemActivity = this;
         payments = (ArrayList<Position>)intent.getSerializableExtra("selectedPositions");
+        alreadyPayed = (ArrayList<Position>) intent.getSerializableExtra("alreadyPayed");
+
+
+
+        mainActivity = (MainActivity) intent.getParcelableExtra("class");
+        System.out.println(mainActivity);
 
         paymentsView = findViewById(R.id.positionsView);
         selectedPaymentsView = findViewById(R.id.selectedPaymentsView);
@@ -87,6 +96,12 @@ public class PaymentSystemActivity extends AppCompatActivity{
                 totalPrice -= curPrice;
                 updatePricePay();
             }
+
+            //TODO
+
+
+
+
             paymentsAdapter.notifyDataSetChanged();
             payedPositions.addAll(selectedPayments);
             selectedPayments.clear();
@@ -147,9 +162,11 @@ public class PaymentSystemActivity extends AppCompatActivity{
 
     private void sendOrder(String tableNumber){
         Intent intent = new Intent(this, MainActivity.class);
-        Order order = new Order(1, Integer.parseInt(tableNumber), (ArrayList<Position>) payedPositions);
+        Order order = new Order(1, tableNumber, (ArrayList<Position>) payedPositions);
         System.out.println("This is a order object:");
         System.out.println(order.toString());
+        System.out.println("This is a position object:");
+        System.out.println(order.positions.toString());
         startActivity(intent);
     }
 

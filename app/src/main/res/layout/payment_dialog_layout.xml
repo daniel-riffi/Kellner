@@ -1,16 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/txtTableNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="210dp"
-        android:layout_marginBottom="12dp"
-        android:hint="@string/table_number" />
 
-</LinearLayout>
+    <EditText
+        android:id="@+id/txtTableNumberNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:hint="@string/table_number_number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtTableNumberLetter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:hint="@string/table_number_letter"
+        app:layout_constraintStart_toEndOf="@+id/txtTableNumberNumber"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spnTableNumberLetter"
+        android:layout_width="108dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toEndOf="@+id/spnTableNumberNumber"
+        app:layout_constraintTop_toBottomOf="@+id/txtTableNumberNumber" />
+
+    <NumberPicker
+        android:id="@+id/spnTableNumberNumber"
+        android:layout_width="63dp"
+        android:layout_height="89dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTableNumberLetter" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
