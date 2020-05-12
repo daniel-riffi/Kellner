@@ -1,3 +1,4 @@
+
 package com.example.kellner.payment;
 
 import android.app.AlertDialog;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.kellner.R;
+import com.example.kellner.Server;
 import com.example.kellner.main.MainActivity;
 import com.example.kellner.main.OfferDialogFragment;
 import com.example.kellner.payment.adapter.PaymentsAdapter;
@@ -147,10 +149,11 @@ public class PaymentSystemActivity extends AppCompatActivity{
 
     private void sendOrder(String tableNumber){
         Intent intent = new Intent(this, MainActivity.class);
-        Order order = new Order(1, Integer.parseInt(tableNumber), (ArrayList<Position>) payedPositions);
-        System.out.println("This is a order object:");
-        System.out.println(order.toString());
-        startActivity(intent);
+        Order order = new Order(-1, Integer.parseInt(tableNumber), (ArrayList<Position>) payedPositions);
+        Server server=Server.getInstance();
+        server.sendOrderToServer(order);
+        //startActivity(intent);
+        finish();
     }
 
     private void handlePosition(Position position, boolean addel) {
@@ -251,4 +254,3 @@ public class PaymentSystemActivity extends AppCompatActivity{
     }
 
 }
- 

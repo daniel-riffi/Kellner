@@ -1,28 +1,33 @@
 package com.example.kellner.main;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-import android.widget.GridView;
-
-import androidx.core.content.ContextCompat;
-
 import com.example.kellner.R;
+import com.example.kellner.Server;
+import com.example.kellner.SettingsActivity;
 import com.example.kellner.main.adapter.DisplayOfferAdapter;
 import com.example.kellner.main.adapter.SelectedOfferAdapter;
 import com.example.kellner.payment.PaymentSystemActivity;
 
-import at.orderlibrary.*;
-
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
+import at.orderlibrary.Category;
+import at.orderlibrary.Offer;
+import at.orderlibrary.Position;
+import at.orderlibrary.Product;
 
 public class MainActivity extends AppCompatActivity {
     private List<Offer> allOffers;
@@ -34,11 +39,14 @@ public class MainActivity extends AppCompatActivity {
     private SelectedOfferAdapter selectedOfferAdapter;
     private Category category;
     private OfferDialogFragment offerDialogFragment;
+    private final int RQ_PREFERENCES=12345;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 
         Button little_food = findViewById(R.id.btn_little_food);
@@ -58,7 +66,35 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         bindAdapterToGridView(gridView);
         bindAdapterToListView(listView);
+
+        perms();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String ipAddress = prefs.getString("ipaddress", "empty");
+        String port = prefs.getString("port", "empty");
+        if(ipAddress.equals("empty") || port.equals("empty") || !connectToServer(ipAddress, port)){
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivityForResult(intent, RQ_PREFERENCES);
+        }
+
+    }
+
+
+    private boolean connectToServer(String ip, String port) {
+        Server server = Server.getInstance();
+        server.setIpAddress(ip);
+        try {
+            server.setPort(Integer.parseInt(port));
+        }
+        catch(NumberFormatException e){
+            return false;
+        }
+        return server.connect();
+    }
+
 
     private void initButtons(Button little_food, Button large_food, Button alcoholic_drinks, Button nonalcoholic_drinks, Button desert, Button payment){
 
@@ -137,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent paymentIntent = new Intent(MainActivity.this, PaymentSystemActivity.class);
                 paymentIntent.putExtra("selectedPositions", (ArrayList<Position>) selectedPositions);
-                MainActivity.this.startActivity(paymentIntent);
+                startActivity(paymentIntent);
             }
         });
     }
@@ -146,37 +182,21 @@ public class MainActivity extends AppCompatActivity {
         allOffers = new ArrayList<>();
         offers = new ArrayList<>();
         selectedPositions = new ArrayList<>();
-        allOffers.add(new Offer(1, "Schnitzel", 8.6, Category.FOOD));
-        allOffers.add(new Offer(2, "Hendl", 5.6, Category.FOOD));
-        allOffers.add(new Offer(3, "Würstel", 3.50, Category.FOOD));
-        allOffers.add(new Offer(4, "Cordon Bleu", 8, Category.FOOD));
+        Server server=Server.getInstance();
 
-        allOffers.add(new Offer(5, "Pommes", 5.6, Category.SMALL_FOOD));
-        allOffers.add(new Offer(6, "Schnitzelburger", 8, Category.SMALL_FOOD));
-        allOffers.add(new Offer(7, "Leberkäsesemmel", 8, Category.SMALL_FOOD));
+        server.onOpen((obj)-> {
+            server.readOffersFromServer((o) -> {
+                allOffers = o;
+                runOnUiThread(()->filterList(category));
+            });
+        });
 
-
-        allOffers.add(new Offer(8, "Bier 1/2", 3.5, Category.ALCOHOLIC_DRINK));
-        allOffers.add(new Offer(9, "Bier 1/3", 2.5, Category.ALCOHOLIC_DRINK));
-        allOffers.add(new Offer(10, "Wein 1/8", 3.50, Category.ALCOHOLIC_DRINK));
-        allOffers.add(new Offer(11, "Cola Weiß", 3, Category.ALCOHOLIC_DRINK));
-        allOffers.add(new Offer(12, "Cola Rot", 3, Category.ALCOHOLIC_DRINK));
-
-
-        allOffers.add(new Offer(13, "Cola", 2.5, Category.NON_ALCOHOLIC_DRINK));
-        allOffers.add(new Offer(14, "Fanta", 2.5, Category.NON_ALCOHOLIC_DRINK));
-        allOffers.add(new Offer(15, "Sprite", 2.5, Category.NON_ALCOHOLIC_DRINK));
-        allOffers.add(new Offer(16, "Apfelsaft", 2.5, Category.NON_ALCOHOLIC_DRINK));
-        allOffers.add(new Offer(17, "Orangensaft", 2.5, Category.NON_ALCOHOLIC_DRINK));
-        allOffers.add(new Offer(18, "Almdudler", 2.5, Category.NON_ALCOHOLIC_DRINK));
-        allOffers.add(new Offer(19, "Mineralwasser", 2.5, Category.NON_ALCOHOLIC_DRINK));
-
-
-        allOffers.add(new Offer(20, "Kuchen", 5.6, Category.DESERT));
-
-        filterList(category);
     }
-
+    private void perms(){
+        if(checkSelfPermission(Manifest.permission.INTERNET)!= PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[]{Manifest.permission.INTERNET},0);
+        }
+    }
     private void filterList(Category category){
         offers.clear();
         for (Offer offer:
@@ -223,10 +243,10 @@ public class MainActivity extends AppCompatActivity {
             selectedPositions.remove(position);
         }else{
             for (Position pos:
-                 selectedPositions) {
-               if(pos.equals(position)){
-                   pos.amount--;
-               }
+                    selectedPositions) {
+                if(pos.equals(position)){
+                    pos.amount--;
+                }
             }
         }
         selectedOfferAdapter.notifyDataSetChanged();
@@ -267,3 +287,4 @@ public class MainActivity extends AppCompatActivity {
         return position;
     }
 }
+
