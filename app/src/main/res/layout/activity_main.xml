@@ -4,15 +4,135 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".main.MainActivity">
+
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:text="@string/header"
+        android:fontFamily="@font/sf_pro_rounded_regular"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <GridView
+            android:id="@+id/gridView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:numColumns="3"
+            app:layout_constraintTop_toTopOf="@+id/guideline4"
+            app:layout_constraintBottom_toTopOf="@+id/guideline3" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_large_food"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="@drawable/large_food"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toStartOf="@+id/btn_alcoholic_drinks"
+        app:layout_constraintStart_toEndOf="@+id/btn_little_food"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <Button
+        android:id="@+id/btn_alcoholic_drinks"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="@drawable/alcoholic_drinks"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toStartOf="@+id/btn_nonalcoholic_drinks"
+        app:layout_constraintHorizontal_bias="0.263"
+        app:layout_constraintStart_toEndOf="@+id/btn_large_food"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <Button
+        android:id="@+id/btn_nonalcoholic_drinks"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="@drawable/nonalcoholic_drinks"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toStartOf="@+id/btn_desert"
+        app:layout_constraintStart_toEndOf="@+id/btn_alcoholic_drinks"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <Button
+            android:id="@+id/btn_little_food"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/little_food"
+            app:layout_constraintBottom_toTopOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline"/>
+
+    <Button
+        android:id="@+id/btn_desert"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/desert"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.069767445"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.16963065"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" app:layout_constraintGuide_percent="0.21614227"/>
+
+    <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="50dp"
+            android:layout_height="54dp"
+            android:layout_marginStart="6dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo_edited" android:contentDescription="TODO"/>
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.7"/>
+
+    <ListView
+            android:id="@+id/listView"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/gridView" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toTopOf="@+id/guideline5"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.92"/>
+
+    <Button
+            android:id="@+id/btnPayment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/payment"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

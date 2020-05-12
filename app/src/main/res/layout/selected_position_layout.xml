@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+            android:id="@+id/txtSelectedOfferName"
+            android:layout_width="238dp"
+            android:layout_height="34dp"
+            android:textSize="20sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/sf_pro_rounded_regular"
+            android:textAlignment="gravity" />
+
+    <!--            android:background="@drawable/rectangle_selected_number"-->
+
+    <TextView
+            android:id="@+id/txtSelectedOfferNumber"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+
+            android:textSize="20sp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/sf_pro_rounded_regular" />
+
+    <Button
+            android:id="@+id/btnSelectOffer"
+            android:layout_width="25dp"
+            android:layout_height="49dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/plus"/>
+
+    <Button
+            android:id="@+id/btnDeselectOffer"
+            android:layout_width="25dp"
+            android:layout_height="49dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/substract"/>
+
+</LinearLayout>

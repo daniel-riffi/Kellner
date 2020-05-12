@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Kellner</string>
+    <string name="header">Musikkapelle Ampflwang</string>
+    <string name="item">Bier</string>
+    <string name="amount">Menge</string>
+    <string name="specialWishes">Sonderwünsche</string>
+    <string name="payment">Zahlung</string>
+    <string name="cur_payment">Zahlung</string>
+    <string name="finished_payment">Fertig bezahlt</string>
+    <string name="all_payment">Zahlung all</string>
+    <string name="table_number">Tischnummer</string>
+    <string name="bez_finished_title">Bestellung wird gesendet</string>
+    <string name="bez_finished_text">Die Bestellung wird nun an den Koch übermittelt. Bitte Tischnummer eingeben:</string>
+    <string name="tbl_number_title">"Tischnummer!"</string>
+    <string name="tbl_number_text">Bitte vorher Tischnummer eingeben!</string>
+    <string name="bez_not_finished_title">Bezahlung nicht abgeschlossen!</string>
+    <string name="bez_not_finished_text">Es wurden nicht alle Produkte bezahlt. Nur die bezahlten Produkte werden dem Koch übermittelt. Fortsetzen?</string>
 </resources>
