@@ -147,7 +147,7 @@ public class PaymentSystemActivity extends AppCompatActivity{
 
     private void sendOrder(String tableNumber){
         Intent intent = new Intent(this, MainActivity.class);
-        Order order = new Order(1, Integer.parseInt(tableNumber), (ArrayList<Position>) payedPositions);
+        Order order = new Order(1, tableNumber, (ArrayList<Position>) payedPositions);
         System.out.println("This is a order object:");
         System.out.println(order.toString());
         startActivity(intent);
