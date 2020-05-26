@@ -32,6 +32,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class PaymentSystemActivity extends AppCompatActivity{
+
+    MainActivity mainActivity;
+    private List<Position> alreadyPayed;
     private ListView paymentsView;
     private ListView selectedPaymentsView;
     private List<Position> payments;
@@ -61,6 +64,12 @@ public class PaymentSystemActivity extends AppCompatActivity{
         Intent intent = getIntent();
         paymentSystemActivity = this;
         payments = (ArrayList<Position>)intent.getSerializableExtra("selectedPositions");
+        alreadyPayed = (ArrayList<Position>) intent.getSerializableExtra("alreadyPayed");
+
+
+
+        mainActivity = (MainActivity) intent.getParcelableExtra("class");
+        System.out.println(mainActivity);
 
         paymentsView = findViewById(R.id.positionsView);
         selectedPaymentsView = findViewById(R.id.selectedPaymentsView);
@@ -89,6 +98,12 @@ public class PaymentSystemActivity extends AppCompatActivity{
                 totalPrice -= curPrice;
                 updatePricePay();
             }
+
+            //TODO
+
+
+
+
             paymentsAdapter.notifyDataSetChanged();
             payedPositions.addAll(selectedPayments);
             selectedPayments.clear();
@@ -152,8 +167,8 @@ public class PaymentSystemActivity extends AppCompatActivity{
         Order order = new Order(-1, Integer.parseInt(tableNumber), (ArrayList<Position>) payedPositions);
         Server server=Server.getInstance();
         server.sendOrderToServer(order);
-        //startActivity(intent);
         finish();
+
     }
 
     private void handlePosition(Position position, boolean addel) {

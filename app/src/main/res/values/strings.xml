@@ -7,8 +7,9 @@
     <string name="payment">Zahlung</string>
     <string name="cur_payment">Zahlung</string>
     <string name="finished_payment">Fertig bezahlt</string>
-    <string name="all_payment">Zahlung all</string>
-    <string name="table_number">Tischnummer</string>
+    <string name="all_payment">Alles Auswählen</string>
+    <string name="table_number_number">Nummer</string>
+    <string name="table_number_letter">Buchstabe</string>
     <string name="bez_finished_title">Bestellung wird gesendet</string>
     <string name="bez_finished_text">Die Bestellung wird nun an den Koch übermittelt. Bitte Tischnummer eingeben:</string>
     <string name="tbl_number_title">"Tischnummer!"</string>

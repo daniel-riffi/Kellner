@@ -1,6 +1,7 @@
 package com.example.kellner.main;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -30,6 +31,7 @@ import at.orderlibrary.Position;
 import at.orderlibrary.Product;
 
 public class MainActivity extends AppCompatActivity {
+    public List<Position> alreadyPayed = new ArrayList<>();
     private List<Offer> allOffers;
     private List<Offer> offers;
     private List<Position> selectedPositions;
@@ -171,9 +173,15 @@ public class MainActivity extends AppCompatActivity {
         payment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(alreadyPayed.size() > 0){
+                    System.out.println(alreadyPayed.toString());
+                }
+
                 Intent paymentIntent = new Intent(MainActivity.this, PaymentSystemActivity.class);
                 paymentIntent.putExtra("selectedPositions", (ArrayList<Position>) selectedPositions);
-                startActivity(paymentIntent);
+                paymentIntent.putExtra("alreadyPayed", (ArrayList<Position>) alreadyPayed);
+
+                MainActivity.this.startActivity(paymentIntent);
             }
         });
     }
