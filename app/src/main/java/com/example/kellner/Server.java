@@ -20,30 +20,39 @@ import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 
+import javax.security.auth.callback.Callback;
+
 import at.orderlibrary.*;
 
 public class Server {
+    private static Server server;
+    private String ipAddress;
+    private int port;
+    private ReentrantLock lock;
 
-private String ipAddress;
-private int port;
-private ReentrantLock lock;
+    private Socket socket;
+    private BufferedReader reader;
+    private PrintWriter writer;
+    private ArrayList<Consumer> callbacks;
 
-private Socket socket;
-private BufferedReader reader;
-private PrintWriter writer;
-
-    public Server(String ipAddress,  int port){
-        this.ipAddress=ipAddress;
-        this.port=port;
+    private Server(){
         lock=new ReentrantLock();
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
 
     public void sendOrderToServer(Order order){
         new Thread((()->{
-          String json=new GsonBuilder().excludeFieldsWithModifiers(Modifier.PRIVATE).create()
-                  .toJson(order);
-          writer.print(json+"\r\n");
-          writer.flush();
+            String json=new GsonBuilder().excludeFieldsWithModifiers(Modifier.PRIVATE).create()
+                    .toJson(order);
+            writer.print(json+"\r\n");
+            writer.flush();
         })).start();
     }
 
@@ -92,6 +101,9 @@ private PrintWriter writer;
             lock.lock();
             if(socket!=null&&writer!=null&&reader!=null) {
                 lock.unlock();
+                for (Consumer callback:callbacks) {
+                    callback.accept(null);
+                }
                 return true;
             }
             lock.unlock();
@@ -111,6 +123,43 @@ private PrintWriter writer;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        socket=null;
+        writer=null;
+        reader=null;
+
+    }
+    public boolean isOpen(){
+        return reader!=null&&writer!=null;
+    }
+    public synchronized static Server getInstance(){
+        if(server==null){
+            server=new Server();
+        }
+        return server;
+    }
+    public synchronized void onOpen(Consumer c){
+        if(!isOpen()){
+            if(callbacks==null){
+                callbacks=new ArrayList<>();
+            }
+            callbacks.add(c);
+        }else{
+            c.accept(null);
+        }
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
