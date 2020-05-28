@@ -42,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
     private Category category;
     private OfferDialogFragment offerDialogFragment;
     private final int RQ_PREFERENCES=12345;
+    private boolean preferenceChanged;
     SharedPreferences prefs;
+    private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,19 +71,32 @@ public class MainActivity extends AppCompatActivity {
         bindAdapterToGridView(gridView);
         bindAdapterToListView(listView);
 
+        preferenceChangeListener = this::preferenceChanged;
+        prefs.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
+
+        preferenceChanged = true;
+
         perms();
+    }
+
+    private void preferenceChanged(SharedPreferences sharedPreferences, String s) {
+        preferenceChanged = true;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        String ipAddress = prefs.getString("ipaddress", "empty");
-        String port = prefs.getString("port", "empty");
-        if(ipAddress.equals("empty") || port.equals("empty") || !connectToServer(ipAddress, port)){
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivityForResult(intent, RQ_PREFERENCES);
+        selectedPositions.clear();
+        selectedOfferAdapter.notifyDataSetChanged();
+        if (preferenceChanged) {
+            preferenceChanged = false;
+            String ipAddress = prefs.getString("ipaddress", "empty");
+            String port = prefs.getString("port", "empty");
+            if(ipAddress.equals("empty") || port.equals("empty") || !connectToServer(ipAddress, port)){
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivityForResult(intent, RQ_PREFERENCES);
+            }
         }
-
     }
 
 
